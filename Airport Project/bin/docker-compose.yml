@@ -1,0 +1,34 @@
+version: '2'
+services:
+  spring-app:
+    build: .
+    ports:
+      - "8080:8080"
+    volumes:
+      - ./src:/myapp/src
+    depends_on:
+      - mongodb
+    environment:
+      - spring.data.mongodb.host=mongodb
+      - spring.data.mongodb.database.name=newdata
+      - spring.data.mongodb.port=27017
+      - server.port=8080
+    links:
+      - mongodb
+#    command: npm start
+
+#  mongodb:
+#    image: "mongo:latest"
+
+  mongodb:
+    image: mongo
+    ports:
+      - "27017:27017"
+
+  mongo-seed:
+    build: ./mongo-seed
+    links:
+      - mongodb
+
+
+
